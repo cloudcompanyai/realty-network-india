@@ -182,7 +182,7 @@ function Index() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ActionLink enquiry="Property requirement" onChoose={chooseEnquiry}>Explore Property Segments</ActionLink>
-              <ActionLink enquiry="Discuss a partnership" outlined onChoose={chooseEnquiry}>Join the Network</ActionLink>
+              <Link to="/partnerships" className="rni-button rni-button-outline inline-flex items-center justify-center gap-2 text-rni-paper">Join the Network<ArrowRight aria-hidden="true" className="size-4" /></Link>
             </div>
             <div className="mt-12 border-t border-rni-paper/25 pt-5 sm:mt-16">
               <p className="text-xs font-semibold tracking-[0.16em] text-rni-paper/80">BUILT ON TRUST. CONNECTED BY OPPORTUNITY.</p>
@@ -377,7 +377,7 @@ function Index() {
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
               <ActionLink enquiry="Property requirement" onChoose={chooseEnquiry}>Contact RNI</ActionLink>
-              <ActionLink enquiry="Discuss a partnership" outlined onChoose={chooseEnquiry}>Join the Network</ActionLink>
+              <Link to="/partnerships" className="rni-button rni-button-outline inline-flex items-center justify-center gap-2 text-rni-paper">Join the Network<ArrowRight aria-hidden="true" className="size-4" /></Link>
             </div>
           </div>
         </section>
