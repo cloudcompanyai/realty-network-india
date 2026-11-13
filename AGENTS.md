@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project architecture
+- Keep the supplied public-facing experience on its single index page and handle enquiries with a validated TanStack server function writing to the managed database; the source brief describes one cohesive site with a direct contact flow.
