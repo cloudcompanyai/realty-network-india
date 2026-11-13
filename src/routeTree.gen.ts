@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PartnershipsRouteImport } from './routes/partnerships'
+import { Route as BuySellLeaseIndexRouteImport } from './routes/buy-sell-lease/index'
+import { Route as BuySellLeaseSegmentRouteImport } from './routes/buy-sell-lease/$segment'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +24,55 @@ const PartnershipsRoute = PartnershipsRouteImport.update({
   path: '/partnerships',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuySellLeaseIndexRoute = BuySellLeaseIndexRouteImport.update({
+  id: '/buy-sell-lease/',
+  path: '/buy-sell-lease/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuySellLeaseSegmentRoute = BuySellLeaseSegmentRouteImport.update({
+  id: '/buy-sell-lease/$segment',
+  path: '/buy-sell-lease/$segment',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/partnerships': typeof PartnershipsRoute
+  '/buy-sell-lease/$segment': typeof BuySellLeaseSegmentRoute
+  '/buy-sell-lease/': typeof BuySellLeaseIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/partnerships': typeof PartnershipsRoute
+  '/buy-sell-lease/$segment': typeof BuySellLeaseSegmentRoute
+  '/buy-sell-lease': typeof BuySellLeaseIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/partnerships': typeof PartnershipsRoute
+  '/buy-sell-lease/$segment': typeof BuySellLeaseSegmentRoute
+  '/buy-sell-lease/': typeof BuySellLeaseIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/partnerships'
+  fullPaths:
+    '/' | '/partnerships' | '/buy-sell-lease/$segment' | '/buy-sell-lease/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/partnerships'
-  id: '__root__' | '/' | '/partnerships'
+  to: '/' | '/partnerships' | '/buy-sell-lease/$segment' | '/buy-sell-lease'
+  id:
+    | '__root__'
+    | '/'
+    | '/partnerships'
+    | '/buy-sell-lease/$segment'
+    | '/buy-sell-lease/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PartnershipsRoute: typeof PartnershipsRoute
+  BuySellLeaseSegmentRoute: typeof BuySellLeaseSegmentRoute
+  BuySellLeaseIndexRoute: typeof BuySellLeaseIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +91,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnershipsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/buy-sell-lease/': {
+      id: '/buy-sell-lease/'
+      path: '/buy-sell-lease'
+      fullPath: '/buy-sell-lease/'
+      preLoaderRoute: typeof BuySellLeaseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/buy-sell-lease/$segment': {
+      id: '/buy-sell-lease/$segment'
+      path: '/buy-sell-lease/$segment'
+      fullPath: '/buy-sell-lease/$segment'
+      preLoaderRoute: typeof BuySellLeaseSegmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PartnershipsRoute: PartnershipsRoute,
+  BuySellLeaseSegmentRoute: BuySellLeaseSegmentRoute,
+  BuySellLeaseIndexRoute: BuySellLeaseIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
