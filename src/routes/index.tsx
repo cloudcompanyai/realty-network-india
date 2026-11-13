@@ -1,5 +1,5 @@
 import { useServerFn } from "@tanstack/react-start";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Menu, Phone, X } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
@@ -57,9 +57,9 @@ const requirements = [
 ];
 
 const networkGroups = [
-  { for: "For individuals", title: "Refer an Opportunity", description: "Know someone looking to buy, sell or lease a property? Submit an introduction for review under the applicable referral terms.", link: "Submit an introduction", enquiry: "Refer an opportunity" },
-  { for: "For professionals", title: "Become a Consultant", description: "Explore working with RNI on property requirements, client relationships and transactions, subject to role-specific eligibility and applicable registrations.", link: "Express interest", enquiry: "Become a consultant" },
-  { for: "For businesses", title: "Partner With RNI", description: "Developers, property owners, channel partners and specialist service providers can discuss potential collaboration.", link: "Discuss partnership", enquiry: "Discuss a partnership" },
+  { for: "For individuals", title: "Refer an Opportunity", description: "Know someone looking to buy, sell or lease a property? Submit an introduction for review under the applicable referral terms.", link: "Submit an introduction", enquiry: "Refer an opportunity", href: undefined as string | undefined },
+  { for: "For professionals", title: "Become a Consultant", description: "Explore working with RNI on property requirements, client relationships and transactions, subject to role-specific eligibility and applicable registrations.", link: "Express interest", enquiry: "Become a consultant", href: undefined as string | undefined },
+  { for: "For businesses", title: "Partner With RNI", description: "Developers, property owners, channel partners and specialist service providers can discuss potential collaboration.", link: "Discuss partnership", enquiry: "Discuss a partnership", href: "/partnerships" },
 ];
 
 const values = [
@@ -299,7 +299,7 @@ function Index() {
                   <span className="rni-label">{item.for}</span>
                   <h3 className="font-display mt-4 text-2xl font-medium text-rni-navy">{item.title}</h3>
                   <p className="mt-3 flex-1 text-sm leading-6 text-rni-muted">{item.description}</p>
-                  <a href="#contact" onClick={() => chooseEnquiry(item.enquiry)} className="rni-link mt-7 w-fit">{item.link}<ArrowRight aria-hidden="true" className="size-3.5" /></a>
+                  {item.href ? <Link to={item.href} className="rni-link mt-7 w-fit">{item.link}<ArrowRight aria-hidden="true" className="size-3.5" /></Link> : <a href="#contact" onClick={() => chooseEnquiry(item.enquiry)} className="rni-link mt-7 w-fit">{item.link}<ArrowRight aria-hidden="true" className="size-3.5" /></a>}
                 </article>
               ))}
             </div>
@@ -485,7 +485,23 @@ function Index() {
           <div>
             <h2 className="text-xs font-semibold uppercase tracking-[0.17em] text-rni-gold">Work With Us</h2>
             <ul className="mt-4 space-y-2.5 text-sm text-rni-paper/75">
-              {[{ label: "Buy, Sell & Lease", href: "#requirements" }, { label: "New Projects", href: "#projects" }, { label: "Refer an Opportunity", href: "#network" }, { label: "Become a Consultant", href: "#network" }, { label: "Partner With RNI", href: "#network" }].map((item) => <li key={item.label}><a href={item.href} className="transition-colors hover:text-rni-gold">{item.label}</a></li>)}
+              {[
+                { label: "Buy, Sell & Lease", href: "#requirements" },
+                { label: "New Projects", href: "#projects" },
+                { label: "Refer an Opportunity", href: "#network" },
+                { label: "Become a Consultant", href: "#network" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} className="transition-colors hover:text-rni-gold">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+              <li>
+                <Link to="/partnerships" className="transition-colors hover:text-rni-gold">
+                  Partner With RNI
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
