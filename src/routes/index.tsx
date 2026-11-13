@@ -35,14 +35,14 @@ export const Route = createFileRoute("/")({
 });
 
 const propertyCards = [
-  { name: "Residential Real Estate", description: "Apartments, flats, villas, independent houses, residential plots, gated communities and resale properties.", label: "Explore residential", image: residentialImage },
-  { name: "Commercial Real Estate", description: "Office spaces, retail shops, showrooms, business centres, commercial buildings and mixed-use developments.", label: "Explore commercial", image: commercialImage },
-  { name: "Industrial & Manufacturing", description: "Industrial plots, factories, manufacturing units, industrial sheds and built-to-suit facilities.", label: "Explore industrial", image: industrialImage },
-  { name: "Warehousing & Logistics", description: "Warehouses, distribution centres, fulfilment facilities, logistics parks and cold-storage properties.", label: "Explore warehousing", image: warehousingImage },
-  { name: "Land & Development", description: "Residential, commercial and industrial land, plotted developments, development parcels and potential land assembly.", label: "Explore land", image: landImage },
-  { name: "Hospitality & Leisure", description: "Hotels, resorts, serviced apartments and leisure properties for owners, operators and prospective investors.", label: "Explore hospitality", image: hospitalityImage },
-  { name: "Institutional & Special-Purpose", description: "Hospitals, educational campuses, healthcare facilities and other specialised-use real estate assets.", label: "Explore institutional", image: institutionalImage },
-  { name: "Investment & Income-Producing", description: "Tenanted commercial assets, leased warehouses, rental-yield properties, investment-grade buildings and selected portfolios.", label: "Explore investments", image: investmentImage },
+  { name: "Residential Real Estate", description: "Apartments, flats, villas, independent houses, residential plots, gated communities and resale properties.", label: "Explore residential", image: residentialImage, segmentSlug: "residential" },
+  { name: "Commercial Real Estate", description: "Office spaces, retail shops, showrooms, business centres, commercial buildings and mixed-use developments.", label: "Explore commercial", image: commercialImage, segmentSlug: "commercial" },
+  { name: "Industrial & Manufacturing", description: "Industrial plots, factories, manufacturing units, industrial sheds and built-to-suit facilities.", label: "Explore industrial", image: industrialImage, segmentSlug: "industrial" },
+  { name: "Warehousing & Logistics", description: "Warehouses, distribution centres, fulfilment facilities, logistics parks and cold-storage properties.", label: "Explore warehousing", image: warehousingImage, segmentSlug: "logistics" },
+  { name: "Land & Development", description: "Residential, commercial and industrial land, plotted developments, development parcels and potential land assembly.", label: "Explore land", image: landImage, segmentSlug: "land" },
+  { name: "Hospitality & Leisure", description: "Hotels, resorts, serviced apartments and leisure properties for owners, operators and prospective investors.", label: "Explore hospitality", image: hospitalityImage, segmentSlug: "hospitality" },
+  { name: "Institutional & Special-Purpose", description: "Hospitals, educational campuses, healthcare facilities and other specialised-use real estate assets.", label: "Explore institutional", image: institutionalImage, segmentSlug: "institutional" },
+  { name: "Investment & Income-Producing", description: "Tenanted commercial assets, leased warehouses, rental-yield properties, investment-grade buildings and selected portfolios.", label: "Explore investments", image: investmentImage, segmentSlug: "investment" },
 ];
 
 const requirements = [
@@ -76,13 +76,13 @@ const perspectives = [
 ];
 
 const navigation = [
-  { label: "Home", href: "#home" },
-  { label: "Property Segments", href: "#segments" },
-  { label: "Buy, Sell & Lease", href: "#requirements" },
-  { label: "New Projects", href: "#projects" },
-  { label: "Our Network", href: "#network" },
-  { label: "About RNI", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "#home", route: undefined as string | undefined },
+  { label: "Property Segments", href: "#segments", route: undefined as string | undefined },
+  { label: "Buy, Sell & Lease", href: "#requirements", route: "/buy-sell-lease" as string | undefined },
+  { label: "New Projects", href: "#projects", route: undefined as string | undefined },
+  { label: "Our Network", href: "#network", route: undefined as string | undefined },
+  { label: "About RNI", href: "#about", route: undefined as string | undefined },
+  { label: "Contact", href: "#contact", route: undefined as string | undefined },
 ];
 
 function ActionLink({ children, enquiry, outlined = false, onChoose }: { children: string; enquiry: string; outlined?: boolean; onChoose: (value: string) => void }) {
@@ -153,7 +153,7 @@ function Index() {
 
           <nav aria-label="Main navigation" className="hidden items-center gap-5 xl:flex 2xl:gap-7">
             {navigation.map((item) => (
-              <a key={item.href} href={item.href} className="text-[0.78rem] font-medium text-rni-paper/85 transition-colors hover:text-rni-gold">{item.label}</a>
+              item.route ? <Link key={item.label} to={item.route} className="text-[0.78rem] font-medium text-rni-gold transition-colors hover:text-rni-paper">{item.label}</Link> : <a key={item.href} href={item.href} className="text-[0.78rem] font-medium text-rni-paper/85 transition-colors hover:text-rni-gold">{item.label}</a>
             ))}
             <a href="#contact" className="border border-rni-gold px-4 py-3 text-xs font-semibold text-rni-paper transition-colors hover:bg-rni-gold hover:text-rni-deep">Connect With Us</a>
           </nav>
@@ -164,7 +164,7 @@ function Index() {
         </div>
         {menuOpen && <nav aria-label="Mobile navigation" className="border-t border-rni-paper/15 bg-rni-deep px-6 pb-5 pt-2 xl:hidden">
           {navigation.map((item) => (
-            <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="block border-b border-rni-paper/10 py-3 text-sm text-rni-paper">{item.label}</a>
+            item.route ? <Link key={item.label} to={item.route} onClick={() => setMenuOpen(false)} className="block border-b border-rni-paper/10 py-3 text-sm text-rni-gold">{item.label}</Link> : <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="block border-b border-rni-paper/10 py-3 text-sm text-rni-paper">{item.label}</a>
           ))}
           <a href="#contact" onClick={() => setMenuOpen(false)} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-rni-gold">Connect with us <ArrowRight aria-hidden="true" className="size-4" /></a>
         </nav>}
@@ -221,14 +221,14 @@ function Index() {
             <div className="mt-11 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
               {propertyCards.map((property, index) => (
                 <article key={property.name} className="rni-property-card group flex min-w-0 flex-col overflow-hidden border border-rni-line bg-background">
-                  <a href="#contact" onClick={() => chooseEnquiry(property.label.replace("Explore ", ""))} aria-label={`${property.label} properties`} className="relative block aspect-[1.36] overflow-hidden bg-rni-cream">
+                  <Link to="/buy-sell-lease/$segment" params={{ segment: property.segmentSlug }} aria-label={`${property.label} properties`} className="relative block aspect-[1.36] overflow-hidden bg-rni-cream">
                     <img src={property.image} alt={property.name} width={512} height={512} loading="lazy" className="rni-property-image size-full object-cover" />
                     <span className="absolute left-4 top-4 bg-background px-3 py-2 font-display text-sm tabular-nums text-rni-navy">{String(index + 1).padStart(2, "0")}</span>
-                  </a>
+                  </Link>
                   <div className="flex flex-1 flex-col px-5 pb-7 pt-6 sm:px-6">
                     <h3 className="font-display text-[1.45rem] font-medium leading-snug text-rni-navy">{property.name}</h3>
                     <p className="mt-3 flex-1 text-sm leading-6 text-rni-muted">{property.description}</p>
-                    <a href="#contact" onClick={() => chooseEnquiry(property.label.replace("Explore ", ""))} className="rni-link mt-6 w-fit">{property.label}<ArrowRight aria-hidden="true" className="size-3.5" /></a>
+                    <Link to="/buy-sell-lease/$segment" params={{ segment: property.segmentSlug }} className="rni-link mt-6 w-fit">{property.label}<ArrowRight aria-hidden="true" className="size-3.5" /></Link>
                   </div>
                 </article>
               ))}
@@ -478,23 +478,21 @@ function Index() {
           <div>
             <h2 className="text-xs font-semibold uppercase tracking-[0.17em] text-rni-gold">Property Segments</h2>
             <ul className="mt-4 space-y-2.5 text-sm text-rni-paper/75">
-              {propertyCards.slice(0, 6).map((item) => <li key={item.name}><a href="#segments" className="transition-colors hover:text-rni-gold">{item.name.replace(" Real Estate", "")}</a></li>)}
-              <li><a href="#segments" className="transition-colors hover:text-rni-gold">Specialist Properties</a></li>
+              {propertyCards.slice(0, 6).map((item) => <li key={item.name}><Link to="/buy-sell-lease/$segment" params={{ segment: item.segmentSlug }} className="transition-colors hover:text-rni-gold">{item.name.replace(" Real Estate", "")}</Link></li>)}
+              <li><Link to="/buy-sell-lease" className="transition-colors hover:text-rni-gold">All Segments</Link></li>
             </ul>
           </div>
           <div>
             <h2 className="text-xs font-semibold uppercase tracking-[0.17em] text-rni-gold">Work With Us</h2>
             <ul className="mt-4 space-y-2.5 text-sm text-rni-paper/75">
               {[
-                { label: "Buy, Sell & Lease", href: "#requirements" },
-                { label: "New Projects", href: "#projects" },
-                { label: "Refer an Opportunity", href: "#network" },
-                { label: "Become a Consultant", href: "#network" },
+                { label: "Buy, Sell & Lease", route: "/buy-sell-lease" as string | undefined, href: undefined as string | undefined },
+                { label: "New Projects", href: "#projects", route: undefined as string | undefined },
+                { label: "Refer an Opportunity", href: "#network", route: undefined as string | undefined },
+                { label: "Become a Consultant", href: "#network", route: undefined as string | undefined },
               ].map((item) => (
                 <li key={item.label}>
-                  <a href={item.href} className="transition-colors hover:text-rni-gold">
-                    {item.label}
-                  </a>
+                  {item.route ? <Link to={item.route} className="transition-colors hover:text-rni-gold">{item.label}</Link> : <a href={item.href} className="transition-colors hover:text-rni-gold">{item.label}</a>}
                 </li>
               ))}
               <li>
